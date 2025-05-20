@@ -1,0 +1,40 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Vorlese Satz</title>
+</head>
+<body style="font-family: sans-serif; padding: 20px; background: #f4f4f4;">
+<h2>Vorlese in dunkler männlicher Stimme</h2>
+<p>Während sie fortfuhr, spielte sie bewusst mit der Kamera, mal neigte ich den Kopf leicht zur Seite, mal ließ sie ihre Finger sanft über eine Haarsträhne oder die Konturen ihres Gesichts gleiten.</p>
+<button onclick="vorlesen()" style="padding: 10px 20px; font-size: 16px;">🔊 Vorlesen</button>
+
+<script>
+function vorlesen() {
+  const text = `Während sie fortfuhr, spielte sie bewusst mit der Kamera, mal neigte ich den Kopf leicht zur Seite, mal ließ sie ihre Finger sanft über eine Haarsträhne oder die Konturen ihres Gesichts gleiten.`;
+  const synth = window.speechSynthesis;
+  synth.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+
+  const voices = synth.getVoices();
+  let selectedVoice = voices.find(v => v.lang.startsWith('de') && v.name.toLowerCase().includes('male'));
+
+  if (!selectedVoice) {
+    selectedVoice = voices.find(v => v.lang.startsWith('de'));
+  }
+
+  if (selectedVoice) {
+    utterance.voice = selectedVoice;
+  }
+  utterance.rate = 0.9;
+  utterance.pitch = 0.7;
+
+  synth.speak(utterance);
+}
+window.speechSynthesis.onvoiceschanged = () => {};
+</script>
+</body>
+</html>
